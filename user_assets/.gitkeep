@@ -1,0 +1,11 @@
+# This file ensures the user_assets directory is tracked by git
+# The actual user-provided files will be ignored by .gitignore
+# but this structure will be maintained
+
+# User must provide:
+# - passages.jsonl
+# - qa_pairs.jsonl  
+# - config.yaml
+# - models/ (optional)
+# - adapters/ (optional)
+# - audio_samples/ (optional)

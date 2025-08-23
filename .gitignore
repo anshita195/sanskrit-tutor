@@ -1,0 +1,241 @@
+# ============================================================================
+# Sanskrit Tutor - Comprehensive .gitignore
+# ============================================================================
+
+# ====================================
+# Python & Development
+# ====================================
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Build artifacts
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# ====================================
+# Sanskrit Tutor - Data Files
+# ====================================
+
+# Raw source data (thousands of JSON files - keep for reference but large)
+# Uncomment next line if you want to exclude raw data to save space:
+raw_data/
+
+# Generated indices and embeddings
+data/
+*.index
+*.faiss
+*.npy
+*.pkl
+user_assets/embeddings/
+
+# ====================================
+# Sanskrit Tutor - Models & Assets
+# ====================================
+
+# Large model files (multi-GB)
+user_assets/models/
+*.gguf
+*.bin
+*.safetensors
+*.pth
+*.onnx
+
+# LoRA adapters and fine-tuned models
+user_assets/adapters/
+
+# Audio samples and media
+user_assets/audio_samples/
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+
+# ====================================
+# Sanskrit Tutor - Configuration
+# ====================================
+
+# Keep templates, decide on your working files
+!user_assets/.gitkeep
+!user_assets/*_template.*
+!user_assets/config_template.yaml
+
+# Your actual working files - CHOOSE YOUR PREFERENCE:
+# Option A: Keep your data private (uncomment these):
+user_assets/config.yaml
+user_assets/passages.jsonl
+user_assets/qa_pairs.jsonl
+
+# Option B: Share your data (current setting - files will be tracked)
+# (no exclusions - your config.yaml, passages.jsonl, qa_pairs.jsonl will be included)
+
+# ====================================
+# Machine Learning / AI
+# ====================================
+
+# ML model formats
+*.h5
+*.hdf5
+*.joblib
+*.model
+*.pt
+*.ckpt
+
+# Training artifacts
+checkpoints/
+runs/
+tensorboard_logs/
+wandb/
+.neptune/
+lightning_logs/
+
+# Hugging Face cache
+.cache/
+transformers_cache/
+.huggingface/
+
+# ====================================
+# Logs & Temporary Files
+# ====================================
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+
+# Backup files
+*.bak
+*.backup
+*.jsonl.bak
+*.yaml.bak
+*.config.bak
+
+# Temporary directories
+tmp/
+temp/
+*.tmp
+test_output/
+debug_logs/
+output/
+
+# ====================================
+# Environment & Secrets
+# ====================================
+
+# Environment files
+.env.local
+.env.production
+.env.development
+.env.test
+
+# API keys and secrets
+*.key
+*.pem
+secrets/
+
+# ====================================
+# Operating System
+# ====================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# ====================================
+# Development Tools
+# ====================================
+
+# Linting and formatting
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+
+# Documentation builds
+docs/_build/
+
+# ====================================
+# Large Dataset Exclusions (Optional)
+# ====================================
+
+# Uncomment these if you want to exclude large datasets:
+# *.jsonl
+# *.csv
+# *.tsv
+# *.parquet
+# *.feather
+
+# GPU-specific files
+*.cuda
+*.rocm
+
+# ====================================
+# Sanskrit Tutor - Custom Exclusions
+# ====================================
+
+# Add any custom patterns specific to your workflow here:
+# experiments/
+# benchmarks/
+# analysis/

@@ -1,0 +1,12 @@
+model_path: null
+gguf_local: true
+embeddings_model: "sentence-transformers/all-MiniLM-L6-v2"
+faiss_index_path: "tests/fixtures/test.index"
+passages_file: "tests/fixtures/passages.jsonl"
+qa_file: "tests/fixtures/qa_pairs.jsonl"
+audio_folder: "tests/fixtures/audio_samples"
+retrieval_k: 3
+max_tokens: 200
+temperature: 0.7
+hf_model: "microsoft/DialoGPT-small"
+openai_model: "gpt-3.5-turbo"
