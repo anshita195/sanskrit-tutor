@@ -221,7 +221,7 @@ docs/_build/
 # ====================================
 
 # Uncomment these if you want to exclude large datasets:
-# *.jsonl
+*.jsonl
 # *.csv
 # *.tsv
 # *.parquet
@@ -230,6 +230,8 @@ docs/_build/
 # GPU-specific files
 *.cuda
 *.rocm
+/gretil/
+/sanskrit_corpus_kaggle/
 
 # ====================================
 # Sanskrit Tutor - Custom Exclusions

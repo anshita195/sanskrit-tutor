@@ -9,9 +9,18 @@ from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
 from pathlib import Path
 
-from embed_index import EmbeddingIndexer
-from llm_backends import LLMManager, create_llm_manager
-from ingest import DataIngester, Passage, QAPair
+try:
+    from .embed_index import EmbeddingIndexer
+    from .llm_backends import LLMManager, create_llm_manager
+    from .ingest import DataIngester, Passage, QAPair
+    from .domain_manager import MultiDomainManager, SanskritDomain
+    from .rag_postcheck import RAGPostChecker, StrictRAGPromptTemplate
+except ImportError:
+    from embed_index import EmbeddingIndexer
+    from llm_backends import LLMManager, create_llm_manager
+    from ingest import DataIngester, Passage, QAPair
+    from domain_manager import MultiDomainManager, SanskritDomain
+    from rag_postcheck import RAGPostChecker, StrictRAGPromptTemplate
 
 
 @dataclass
@@ -164,7 +173,7 @@ class CitationValidator:
 class SanskritRAG:
     """
     Main RAG system for Sanskrit tutoring.
-    Combines retrieval, generation, and citation validation.
+    Combines retrieval, generation, and citation validation with multi-domain support.
     """
     
     def __init__(self, config_path: str):
@@ -178,6 +187,10 @@ class SanskritRAG:
         self.metadata = None
         self.prompt_template = SanskritPromptTemplate()
         self.citation_validator = None
+        
+        # Multi-domain support
+        self.domain_manager = MultiDomainManager(config_path)
+        self.current_domain = SanskritDomain.GENERAL
         
         # Configuration
         self.config = None
@@ -402,6 +415,61 @@ class SanskritRAG:
         }
         
         return quality_metrics
+    
+    # ========================================
+    # Multi-Domain Methods
+    # ========================================
+    
+    def set_domain(self, domain: SanskritDomain):
+        """Set the current domain for specialized responses."""
+        self.current_domain = domain
+        self.domain_manager.set_active_domain(domain)
+    
+    def auto_detect_domain(self, question: str) -> SanskritDomain:
+        """Auto-detect the appropriate domain for a question."""
+        return self.domain_manager.auto_detect_domain(question)
+    
+    def answer_with_domain_detection(self, question: str, retrieval_k: Optional[int] = None) -> Tuple[RAGResponse, SanskritDomain]:
+        """Answer question with automatic domain detection."""
+        detected_domain = self.auto_detect_domain(question)
+        self.set_domain(detected_domain)
+        
+        # Use domain-specific system prompt
+        original_system_prompt = self.prompt_template.SYSTEM_INSTRUCTION
+        domain_prompt = self.domain_manager.get_system_prompt(detected_domain)
+        self.prompt_template.SYSTEM_INSTRUCTION = domain_prompt
+        
+        try:
+            response = self.answer_question(question, retrieval_k)
+            
+            # Format response with domain styling
+            formatted_answer = self.domain_manager.format_domain_response(
+                response.answer, detected_domain
+            )
+            response.answer = formatted_answer
+            
+            return response, detected_domain
+        finally:
+            # Restore original prompt
+            self.prompt_template.SYSTEM_INSTRUCTION = original_system_prompt
+    
+    def get_available_domains(self) -> List[Tuple[SanskritDomain, str]]:
+        """Get list of available domains with their display names."""
+        domains = self.domain_manager.get_available_domains()
+        return [(domain, config.display_name) for domain, config in domains]
+    
+    def get_domain_config(self, domain: SanskritDomain) -> dict:
+        """Get configuration for a specific domain."""
+        config = self.domain_manager.get_domain_config(domain)
+        return {
+            'name': config.name,
+            'display_name': config.display_name,
+            'description': config.description,
+            'expert_name': config.expert_name,
+            'features': config.specialized_features,
+            'icon': config.icon,
+            'color': config.ui_color
+        }
 
 
 def main():

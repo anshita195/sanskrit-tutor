@@ -9,7 +9,16 @@ import re
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Set
 from dataclasses import dataclass, asdict
-from utils.config_validator import ConfigValidator
+try:
+    from .utils.config_validator import ConfigValidator
+except ImportError:
+    try:
+        from utils.config_validator import ConfigValidator
+    except ImportError:
+        # Create a simple fallback if config validator not available
+        class ConfigValidator:
+            def __init__(self, base_path): pass
+            def validate_all(self): return True
 
 
 @dataclass

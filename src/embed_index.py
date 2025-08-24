@@ -21,7 +21,14 @@ except ImportError:
     SENTENCE_TRANSFORMERS_AVAILABLE = False
     print("WARNING: sentence-transformers not available. Install with: pip install sentence-transformers")
 
-from ingest import DataIngester, Passage
+try:
+    # Try relative imports first (when used as module)
+    from .ingest import DataIngester, Passage
+    from .sanskrit_normalizer import SanskritNormalizer
+except ImportError:
+    # Fall back to absolute imports (when run as script)
+    from ingest import DataIngester, Passage
+    from sanskrit_normalizer import SanskritNormalizer
 
 
 class EmbeddingIndexer:
@@ -122,13 +129,14 @@ class EmbeddingIndexer:
             print(f"WARNING: Failed to save embeddings: {str(e)}")
     
     def generate_embeddings(self, passages: List[Passage], 
-                           batch_size: int = 32) -> Tuple[np.ndarray, List[str]]:
+                           batch_size: int = 32, use_composite: bool = True) -> Tuple[np.ndarray, List[str]]:
         """
-        Generate embeddings for passages.
+        Generate embeddings for passages using composite text (IAST + Devanagari).
         
         Args:
             passages: List of Passage objects
             batch_size: Batch size for embedding generation
+            use_composite: Whether to use composite embeddings (IAST + Devanagari)
             
         Returns:
             Tuple of (embeddings array, passage IDs)
@@ -137,9 +145,25 @@ class EmbeddingIndexer:
             raise ValueError("Embedding model not loaded. Call load_embedding_model() first.")
         
         print(f"Generating embeddings for {len(passages)} passages...")
+        if use_composite:
+            print("Using composite embeddings (IAST + Devanagari)")
+        
+        # Create Sanskrit normalizer for composite text
+        normalizer = SanskritNormalizer()
         
         # Extract texts and IDs
-        texts = [passage.get_searchable_text() for passage in passages]
+        if use_composite:
+            texts = []
+            for passage in passages:
+                passage_dict = passage.to_dict()
+                iast = passage_dict.get('text_iast', '')
+                devanagari = passage_dict.get('text_devanagari', '')
+                # Create composite text: IAST ||| Devanagari
+                composite_text = normalizer.create_composite_text(iast, devanagari)
+                texts.append(composite_text)
+        else:
+            texts = [passage.get_searchable_text() for passage in passages]
+        
         passage_ids = [passage.id for passage in passages]
         
         # Generate embeddings in batches
@@ -277,12 +301,12 @@ class EmbeddingIndexer:
     def search(self, index: faiss.Index, metadata: Dict[str, Any], 
               query: str, k: int = 5) -> List[Dict[str, Any]]:
         """
-        Search the FAISS index with a query.
+        Search the FAISS index with a Sanskrit-aware query.
         
         Args:
             index: FAISS index
             metadata: Index metadata
-            query: Search query
+            query: Search query (can be Devanagari, IAST, or English)
             k: Number of results to return
             
         Returns:
@@ -290,9 +314,18 @@ class EmbeddingIndexer:
         """
         if not self.model:
             raise ValueError("Embedding model not loaded. Call load_embedding_model() first.")
-            
+        
+        # Normalize query using Sanskrit normalizer
+        normalizer = SanskritNormalizer()
+        normalized_query = normalizer.normalize_query(query)
+        
+        # Create composite query text (same format as passages)
+        iast = normalized_query['iast']
+        devanagari = normalized_query['devanagari']
+        composite_query = normalizer.create_composite_text(iast, devanagari)
+        
         # Generate query embedding
-        query_embedding = self.model.encode([query], show_progress_bar=False)
+        query_embedding = self.model.encode([composite_query], show_progress_bar=False)
         
         # Search index
         scores, indices = index.search(query_embedding, k)

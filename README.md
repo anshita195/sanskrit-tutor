@@ -7,11 +7,13 @@ A Retrieval-Augmented Generation (RAG) chatbot system for Sanskrit language lear
 
 ## 🌟 Features
 
+- **🕉️ Sanskrit Conversation**: World's first AI that can converse IN Sanskrit language with Devanagari script
 - **💬 Interactive Chat**: Ask questions about Sanskrit texts, grammar, and philosophy
 - **📝 Exercise Mode**: Practice with guided questions and detailed feedback
 - **🔍 Passage Lookup**: Explore specific text passages with citations
 - **🎵 Audio Practice**: Upload recordings for pronunciation analysis (experimental)
 - **📚 Citation-backed Answers**: All responses include exact passage references
+- **🔤 Multi-Script Support**: Devanagari, IAST, and English input/output
 - **🏠 Local or Cloud**: Run with local GGUF models or hosted APIs
 - **🔧 Fine-tuning**: Optional LoRA fine-tuning with Google Colab
 
@@ -193,6 +195,7 @@ This creates embeddings and a FAISS search index from your passages.
 
 ### 3. Launch the UI
 
+#### Standard Learning Interface
 ```bash
 python src/ui_gradio.py --config user_assets/config.yaml
 ```
@@ -202,6 +205,33 @@ Opens a web interface at http://localhost:7860 with:
 - **Exercise Mode**: Practice with your QA pairs
 - **Passage Lookup**: Search by passage ID
 - **Audio Practice**: Upload pronunciation samples
+
+#### 🕉️ Sanskrit Conversational Interface (NEW!)
+```bash
+# Launch the Sanskrit conversation chatbot
+python src/sanskrit_chat_ui.py --config user_assets/config.yaml
+
+# Custom port and public sharing
+python src/sanskrit_chat_ui.py --port 8080 --share
+```
+
+**World's first AI that converses IN Sanskrit language!**
+
+Features:
+- **🔤 Multi-Script**: Type in Devanagari (कः अस्ति धर्मः?), IAST (kaḥ asti dharmaḥ?), or English
+- **🗣️ Sanskrit Responses**: AI responds in Sanskrit with English explanations
+- **📚 Citation-Backed**: All responses reference authentic Sanskrit texts
+- **🎯 Three Modes**: Bilingual, Sanskrit-only, or Learning mode with analysis
+
+Sample conversations:
+```
+You: नमस्ते! (namaste!)
+AI:  नमस्ते भवान्! कथम् अस्ति? (Hello! How are you?)
+
+You: कः अस्ति धर्मः? (What is dharma?)
+AI:  धर्मः स्वधर्मम् अनुतिष्ठति... (Dharma upholds one's righteous duty...)
+     📚 Referenced: Bhagavad Gita 18.47
+```
 
 ### 4. Command Line Usage
 
