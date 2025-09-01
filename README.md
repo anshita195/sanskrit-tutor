@@ -18,9 +18,18 @@ A Retrieval-Augmented Generation (RAG) chatbot system for Sanskrit language lear
 pip install -r requirements.txt
 ```
 
-### 2. Download GGUF Model Only
+### 2. Download Required Files
 
-**Note**: The repository includes all source data and processed files. You only need to download the model.
+**Note**: The repository includes processed data files, but you need to download the large source files and model.
+
+**Download Large Source Files:**
+```bash
+# Download Sanskrit corpus (616MB - too large for GitHub)
+wget https://www.kaggle.com/datasets/preetsojitra/sanskrit-text-corpus/download -O sanskrit_corpus_kaggle/train.txt
+
+# Download full passages file (1.9GB - too large for GitHub) 
+# This is optional - the system works with the included passages.jsonl
+```
 
 **Download GGUF Model:**
 ```bash
@@ -105,9 +114,14 @@ python src/llm_backends.py --config user_assets/config.yaml
 
 ### What's Included in Repository:
 - ✅ **Source Data**: Bhagavad Gita dataset (raw_data/)
-- ✅ **Sanskrit Corpus**: Text corpus (sanskrit_corpus_kaggle/)
-- ✅ **Processed Data**: passages.jsonl, qa_pairs.jsonl, config.yaml
+- ✅ **Processed Data**: passages.jsonl (719 verses), qa_pairs.jsonl, config.yaml
 - ✅ **Application Code**: Complete RAG system (src/)
+- ✅ **Embeddings**: Pre-built FAISS index and embeddings
+
+### What You Need to Download:
+- ❌ **Sanskrit Corpus**: train.txt (616MB - too large for GitHub)
+- ❌ **Full Passages**: passages_full.jsonl (1.9GB - optional, system works without it)
+- ❌ **GGUF Model**: mistral-7b-instruct-v0.2.Q4_K_M.gguf (4.4GB)
 
 ### System Requirements:
 - **Python 3.8+**

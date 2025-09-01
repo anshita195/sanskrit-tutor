@@ -34,6 +34,10 @@ ENV/
 # Sanskrit Tutor - User Data
 # ====================================
 
+# Large files (exceed GitHub's 100MB limit)
+user_assets/passages_full.jsonl
+sanskrit_corpus_kaggle/train.txt
+
 # Large model files (user must download - too big for GitHub)
 user_assets/models/
 *.gguf
