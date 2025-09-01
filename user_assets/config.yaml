@@ -1,0 +1,37 @@
+# Sanskrit Tutor Configuration - Bhagavad Gita Dataset
+# Generated from Kaggle Bhagavad Gita API Database conversion
+
+# Model configuration
+model_path: "user_assets/models/mistral-7b-instruct-v0.2.Q4_K_M.gguf"
+gguf_local: true  # Set to true if using local GGUF model
+n_ctx: 2048  # Smaller context for faster processing
+n_gpu_layers: 0  # Use CPU only
+
+# Required embedding model - multilingual for Sanskrit support  
+embeddings_model: "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"  # Multilingual embeddings for Sanskrit
+
+# FAISS index path
+faiss_index_path: "data/faiss.index"
+
+# Required data files
+passages_file: "user_assets/passages.jsonl"
+qa_file: "user_assets/qa_pairs.jsonl"
+
+# Optional audio folder
+audio_folder: "user_assets/audio_samples"
+
+# RAG Parameters
+retrieval_k: 3
+max_tokens: 150  # Shorter responses = faster processing
+temperature: 0.7
+
+# Performance optimizations for CPU
+n_threads: 4
+n_batch: 8
+
+# Logging (for debugging)
+log_level: "DEBUG"
+verbose: true
+
+# Generated dataset info (informational only)
+# 719 passages, 2853 Q&A pairs from complete Bhagavad Gita

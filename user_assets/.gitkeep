@@ -7,5 +7,3 @@
 # - qa_pairs.jsonl  
 # - config.yaml
 # - models/ (optional)
-# - adapters/ (optional)
-# - audio_samples/ (optional)
