@@ -86,11 +86,9 @@ python src/llm_backends.py --config user_assets/config.yaml
 - "dhyānaṃ katham?"
 
 **Sanskrit (Devanagari):**
-- "धर्मः किम्?"
-- "ध्यानं कथम्?"
 - "योगः किम्?"
-
-
+- "ध्यानं कथम्?"
+- "धर्मः किम्?"
 
 ## 🎯 System Capabilities
 
