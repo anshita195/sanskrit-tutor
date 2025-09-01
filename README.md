@@ -2,6 +2,17 @@
 
 A Retrieval-Augmented Generation (RAG) chatbot system for Sanskrit language learning using authentic Bhagavad Gita texts.
 
+## 🎯 Getting Started (TL;DR)
+
+**For immediate use:**
+1. `git clone` this repository
+2. `pip install -r requirements.txt`
+3. Download the GGUF model (4.4GB) - see links below
+4. `python src/ui_gradio.py --config user_assets/config.yaml`
+5. Start learning Sanskrit! 🕉️
+
+**Everything else is already included** - no additional data downloads needed!
+
 ## 🌟 Current System Status
 
 **✅ WORKING SYSTEM:**
@@ -20,16 +31,7 @@ pip install -r requirements.txt
 
 ### 2. Download Required Files
 
-**Note**: The repository includes processed data files, but you need to download the large source files and model.
-
-**Download Large Source Files:**
-```bash
-# Download Sanskrit corpus (616MB - too large for GitHub)
-wget https://www.kaggle.com/datasets/preetsojitra/sanskrit-text-corpus/download -O sanskrit_corpus_kaggle/train.txt
-
-# Download full passages file (1.9GB - too large for GitHub) 
-# This is optional - the system works with the included passages.jsonl
-```
+**Note**: The repository includes all processed data files. You only need to download the GGUF model to run the system.
 
 **Download GGUF Model:**
 ```bash
@@ -39,6 +41,15 @@ mkdir -p user_assets/models
 # Download Mistral 7B Instruct v0.2 (4-bit quantized, ~4.4GB)
 # Recommended: Q4_K_M for best quality/size balance
 wget https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF/resolve/main/mistral-7b-instruct-v0.2.Q4_K_M.gguf -O user_assets/models/mistral-7b-instruct-v0.2.Q4_K_M.gguf
+```
+
+**Optional: Download Source Datasets (for development/extending the system):**
+```bash
+# Download Sanskrit corpus (616MB) - used to create additional passages
+wget https://www.kaggle.com/datasets/preetsojitra/sanskrit-text-corpus/download -O sanskrit_corpus_kaggle/train.txt
+
+# Download Bhagavad Gita dataset (for reference)
+wget https://www.kaggle.com/datasets/ptprashanttripathi/bhagavad-gita-api-database/download -O bhagavad_gita_dataset.zip
 ```
 
 **Alternative Model Options:**
@@ -107,21 +118,35 @@ python src/llm_backends.py --config user_assets/config.yaml
 - **Interactive learning**: Q&A mode with difficulty levels
 - **Local inference**: Runs completely offline with GGUF model
 
+## 📖 Data Sources
+
+**Primary Data (Included in Repository):**
+- **Bhagavad Gita**: 18 chapters, 700+ authentic Sanskrit verses
+- **Source**: [Kaggle Bhagavad Gita API Database](https://www.kaggle.com/datasets/ptprashanttripathi/bhagavad-gita-api-database)
+- **Processing**: Converted to structured JSONL format with Devanagari + IAST
+
+**Additional Data (Optional for Development):**
+- **Sanskrit Corpus**: [Kaggle Sanskrit Text Corpus](https://www.kaggle.com/datasets/preetsojitra/sanskrit-text-corpus) (616MB)
+- **Usage**: Can be processed to add more passages to the system
+
 ## 📋 Prerequisites
 
 ### Required Downloads (~4.4GB):
 - **GGUF Model Only**: [Hugging Face - Mistral 7B Instruct v0.2](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF)
 
 ### What's Included in Repository:
-- ✅ **Source Data**: Bhagavad Gita dataset (raw_data/)
-- ✅ **Processed Data**: passages.jsonl (719 verses), qa_pairs.jsonl, config.yaml
+- ✅ **Source Data**: Bhagavad Gita dataset (raw_data/) - 18 chapters, 700+ verses
+- ✅ **Processed Data**: passages.jsonl (719 verses), qa_pairs.jsonl (2,853 Q&A pairs), config.yaml
 - ✅ **Application Code**: Complete RAG system (src/)
 - ✅ **Embeddings**: Pre-built FAISS index and embeddings
+- ✅ **Ready to Run**: Just download the model and start!
 
 ### What You Need to Download:
-- ❌ **Sanskrit Corpus**: train.txt (616MB - too large for GitHub)
-- ❌ **Full Passages**: passages_full.jsonl (1.9GB - optional, system works without it)
-- ❌ **GGUF Model**: mistral-7b-instruct-v0.2.Q4_K_M.gguf (4.4GB)
+- ❌ **GGUF Model**: mistral-7b-instruct-v0.2.Q4_K_M.gguf (4.4GB) - **REQUIRED**
+
+### Optional Downloads (for development):
+- ❌ **Sanskrit Corpus**: [Kaggle Sanskrit Text Corpus](https://www.kaggle.com/datasets/preetsojitra/sanskrit-text-corpus) (616MB)
+- ❌ **Bhagavad Gita Dataset**: [Kaggle Bhagavad Gita API Database](https://www.kaggle.com/datasets/ptprashanttripathi/bhagavad-gita-api-database) (for reference)
 
 ### System Requirements:
 - **Python 3.8+**
