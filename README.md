@@ -123,10 +123,12 @@ python src/llm_backends.py --config user_assets/config.yaml
 **Primary Data (Included in Repository):**
 - **Bhagavad Gita**: 18 chapters, 700+ authentic Sanskrit verses
 - **Source**: [Kaggle Bhagavad Gita API Database](https://www.kaggle.com/datasets/ptprashanttripathi/bhagavad-gita-api-database)
+- **Status**: ✅ **Already processed and included** - no download needed
 - **Processing**: Converted to structured JSONL format with Devanagari + IAST
 
 **Additional Data (Optional for Development):**
 - **Sanskrit Corpus**: [Kaggle Sanskrit Text Corpus](https://www.kaggle.com/datasets/preetsojitra/sanskrit-text-corpus) (616MB)
+- **Status**: ❌ **Not included** - optional download for extending the system
 - **Usage**: Can be processed to add more passages to the system
 
 ## 📋 Prerequisites
@@ -144,9 +146,9 @@ python src/llm_backends.py --config user_assets/config.yaml
 ### What You Need to Download:
 - ❌ **GGUF Model**: mistral-7b-instruct-v0.2.Q4_K_M.gguf (4.4GB) - **REQUIRED**
 
-### Optional Downloads (for development):
-- ❌ **Sanskrit Corpus**: [Kaggle Sanskrit Text Corpus](https://www.kaggle.com/datasets/preetsojitra/sanskrit-text-corpus) (616MB)
-- ❌ **Bhagavad Gita Dataset**: [Kaggle Bhagavad Gita API Database](https://www.kaggle.com/datasets/ptprashanttripathi/bhagavad-gita-api-database) (for reference)
+### Optional Downloads (for development/extending the system):
+- ❌ **Sanskrit Corpus**: [Kaggle Sanskrit Text Corpus](https://www.kaggle.com/datasets/preetsojitra/sanskrit-text-corpus) (616MB) - to add more passages
+- ❌ **Original Bhagavad Gita Dataset**: [Kaggle Bhagavad Gita API Database](https://www.kaggle.com/datasets/ptprashanttripathi/bhagavad-gita-api-database) - original source files (already processed and included in repo)
 
 ### System Requirements:
 - **Python 3.8+**
